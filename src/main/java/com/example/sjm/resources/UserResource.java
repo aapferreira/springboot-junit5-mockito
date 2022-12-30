@@ -1,5 +1,6 @@
 package com.example.sjm.resources;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,18 +9,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sjm.domain.User;
+import com.example.sjm.domain.dto.UserDTO;
 import com.example.sjm.service.UserService;
 
 @RequestMapping(value = "/user")
 @RestController
 public class UserResource {
 	
+	//O código abaixo só foi possível por ter sido criado o Bean
+	//com.example.sjm.config.ModelMapperConfig;
+	@Autowired
+	private ModelMapper mapper;
+	
 	@Autowired
 	private UserService userService;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<User> findById(@PathVariable int id) {
-		return ResponseEntity.ok().body(userService.findById(id));
+	public ResponseEntity<UserDTO> findById(@PathVariable int id) {
+		return ResponseEntity.ok().body(mapper.map(userService.findById(id), UserDTO.class));
 	}
 
 }
