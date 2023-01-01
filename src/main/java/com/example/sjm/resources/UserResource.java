@@ -1,5 +1,8 @@
 package com.example.sjm.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,13 @@ public class UserResource {
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDTO> findById(@PathVariable int id) {
 		return ResponseEntity.ok().body(mapper.map(userService.findById(id), UserDTO.class));
+	}
+
+	@GetMapping()
+	public ResponseEntity<List<UserDTO>> findAll() {
+		List<User> listaUser = userService.findAll();
+		List<UserDTO> listaDTO = listaUser.stream().map(u -> mapper.map(u, UserDTO.class)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listaDTO);
 	}
 
 }

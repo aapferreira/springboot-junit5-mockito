@@ -1,7 +1,5 @@
 package com.example.sjm.domain.dto;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
